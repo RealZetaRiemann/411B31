@@ -1,0 +1,7 @@
+﻿The stacks we are using are Flask for back end and React front end.
+
+
+We decided to use Python for the back end and we chose Flask because there is a large community that uses Flask, in case we needed any quick help on Stack Overflow for example, and because our project is really simple. All we do is take the user’s zip code, hit 3 API’s and return a recipe for the user. Because of our project’s simplicity, we thought that using Django would be unnecessary and more complicated for our purposes.
+
+
+We decided to use React for the front end because we wanted to use JavaScript and React is easy to learn with a large and active community. While Angular’s MVC architecture would have been nice for this project, learning the entire framework for such a simple application didn’t really make much sense to us.
