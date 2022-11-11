@@ -5,8 +5,8 @@ import time
 
 app = Flask(__name__)
 
-Geoapify_Key = "fc17f5af7b5d44579ac64c18f3700e2f"
-spoonacular_api_key = "d571d46852be436aa59ea0229e022595"
+Geoapify_Key = ""
+spoonacular_api_key = ""
 
 def get_coords_from_zip(zip):
 	geocodeapi_url = "https://api.geoapify.com/v1/geocode/search?text=" + str(zip) + "&type=postcode&filter=countrycode:us,ca&format=json&apiKey=" + Geoapify_Key
