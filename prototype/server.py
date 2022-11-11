@@ -9,6 +9,7 @@ Geoapify_Key = ""
 spoonacular_api_key = ""
 
 def get_coords_from_zip(zip):
+	"""gets the coordinates from the zip code that the user input adn returns latitude, longitude, and which city the user is in """
 	geocodeapi_url = "https://api.geoapify.com/v1/geocode/search?text=" + str(zip) + "&type=postcode&filter=countrycode:us,ca&format=json&apiKey=" + Geoapify_Key
 	response = json.loads(requests.request("GET", geocodeapi_url).text)
 	latraw = response["results"][0]["lat"]
@@ -19,6 +20,7 @@ def get_coords_from_zip(zip):
 	return lat,lon,city
 
 def get_gridpoint_forecast(lat,lon):
+	"""gets the forecast for the user's location"""
 	points_url = "https://api.weather.gov/points/" + str(lat) + "," + str(lon)
 	gridpoint_response = json.loads(requests.request("GET", points_url).text)
 	forecast_url = gridpoint_response["properties"]["forecast"]
@@ -27,6 +29,7 @@ def get_gridpoint_forecast(lat,lon):
 	return shortForecast
 
 def vibecheck (forecast):
+	"""based on the forecast, we choose a keyword to search for a recipe"""
 	if "Clear" in forecast:
 		vibe = "noodles"
 	elif "Cloudy" in forecast:
@@ -37,6 +40,7 @@ def vibecheck (forecast):
 		vibe = "sandwich"
 
 def get_recipe (vibe):
+	"""makes a query to spoonacular to get a recipe for the user"""
 	spoonacular_url = "https://api.spoonacular.com/recipes/complexSearch?query="+str(vibe)+"&number=1&limitLicense=true&apiKey="+str(spoonacular_api_key)
 	random_recipe_url = "https://api.spoonacular.com/recipes/random?number=1&apiKey="+str(spoonacular_api_key)
 	response = json.loads(requests.request("GET", spoonacular_url).text)
