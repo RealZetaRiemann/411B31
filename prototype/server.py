@@ -5,8 +5,8 @@ import time
 
 app = Flask(__name__)
 
-Geoapify_Key = "PASTE KEY HERE"
-spoonacular_api_key = "PASTE KEY HERE"
+Geoapify_Key = "fc17f5af7b5d44579ac64c18f3700e2f"
+spoonacular_api_key = "d571d46852be436aa59ea0229e022595"
 
 def get_coords_from_zip(zip):
 	geocodeapi_url = "https://api.geoapify.com/v1/geocode/search?text=" + str(zip) + "&type=postcode&filter=countrycode:us,ca&format=json&apiKey=" + Geoapify_Key
@@ -15,7 +15,8 @@ def get_coords_from_zip(zip):
 	lat = format(latraw, ".4f")
 	lonraw = response["results"][0]["lon"]
 	lon = format(lonraw, ".4f")
-	return lat,lon
+	city = response["results"][0]["city"]
+	return lat,lon,city
 
 def get_gridpoint_forecast(lat,lon):
 	points_url = "https://api.weather.gov/points/" + str(lat) + "," + str(lon)
@@ -44,20 +45,27 @@ def get_recipe (vibe):
 		title = response["recipes"][0]["title"]
 		image = response["recipes"][0]["image"]
 		id = response["recipes"][0]["id"]
+		sourceUrl = response["recipes"][0]["spoonacularSourceUrl"]
 	else:
 		title = response["results"][0]["title"]
 		image = response["results"][0]["image"]
 		id = response["results"][0]["id"]
-	return title,image,id
+		recipe_url = "https://api.spoonacular.com/recipes/"+str(id)+"/information"
+		response = json.loads(requests.request("GET", recipe_url).text)
+		sourceUrl = response["spoonacularSourceUrl"]
+
+	return title,image,id,sourceUrl
 
 @app.route("/", methods =["GET", "POST"])
 def index():
 	if request.method == "POST":
 		zipcode = request.form.get("zipcode")
-		lat,lon = get_coords_from_zip(zipcode)
+		lat,lon,city = get_coords_from_zip(zipcode)
 		forecast = get_gridpoint_forecast(lat,lon)
 		vibe = vibecheck(forecast)
-		title,image,id = get_recipe(vibe)
-		return render_template("wireframe.html",lat=lat,lon=lon,forecast=forecast,title=title,image=image,id=id)
+		title,image,id,sourceUrl = get_recipe(vibe)
+		return render_template("wireframe.html",lat=lat,lon=lon,forecast=forecast,title=title,image=image,id=id,sourceUrl=sourceUrl,city=city)
 	return render_template("form.html")
+
+
 app.run(host="0.0.0.0", port=5000)
