@@ -9,10 +9,12 @@ import sqlite3
 
 # open database
 conn = sqlite3.connect('database.db')
+cursor = conn.cursor()
 
 # table includes columns for a username, email, and password
-# all usernames must be unique
-conn.execute('CREATE TABLE USERS (username TEXT, email TEXT, password TEXT, UNIQUE(username))')
+# all ids must be unique
+cursor.execute('CREATE TABLE USERS (id TEXT, username TEXT, realname TEXT, zipcode TEXT, UNIQUE(id))')
 
 # close database
+conn.commit()
 conn.close()
