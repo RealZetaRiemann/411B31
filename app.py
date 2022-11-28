@@ -13,8 +13,8 @@ app.secret_key = secrets.token_bytes(32)
 
 oauth = OAuth(app)
 
-app.config['GITHUB_CLIENT_ID'] = "8427d9c0a9294daa443a"
-app.config['GITHUB_CLIENT_SECRET'] = "f582a5bde4e3eedcf2128d91ff1dfb70433da4be"
+app.config['GITHUB_CLIENT_ID'] = "Enter key"
+app.config['GITHUB_CLIENT_SECRET'] = "Enter key"
 
 github = oauth.register (
   name = 'github',
