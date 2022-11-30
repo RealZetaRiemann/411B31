@@ -29,7 +29,7 @@ def get_gridpoint_forecast(lat,lon):
 	return shortForecast
 
 def vibecheck (forecast):
-	"""based on the forecast, we choose a keyword to search for a recipe"""
+	"""based on the forecast, we choose a keyword to search for a recipe
 	if "Clear" in forecast:
 		vibe = "noodles"
 	elif "Cloudy" in forecast:
@@ -37,7 +37,55 @@ def vibecheck (forecast):
 	elif "Rain" in forecast:
 		vibe = "soup"
 	else:
+		vibe = "sandwich""""
+	if "Clear" in forecast:
+		vibe = "noodles"
+	elif "Cloudy" in forecast:
+		vibe = "meatballs"
+	elif "Rain" in forecast or
+	"Showers and Breezy" in forecast
+	or "Snow Showers" in forecast:
+		vibe = "soup"
+	elif "Partly Sunny" in forecast:
+		vibe = "wrap"
+	elif "Sunny " in forecast:
+		vibe = "icecream"
+	elif "Sunny and Very Windy" in forecast:
+		vibe = "kebab"
+	elif "Partly Cloudy" in forecast:
+		vibe = "pizza"
+	elif "Mostly Cloudy" in forecast:
+		vibe = "gnocchi"
+	elif "Sunny and Breezy" in forecast:
+		vibe = "smoothie"
+	elif "Mostly Clear and Windy" in forecast:
+		vibe = "salad"
+	elif "Scattered Showers and Breezy" in forecast:
+		vibe = "coucous"
+	elif "Showers and Patchy Fog" in forecast or 
+	"Chance Showers and Patchy Fog then Showers and Patchy Fog" in forecast:
+		vibe = "stew"
+	elif "Areas Freezing Fog " in forecast:
+		vibe = "risotto"
+	elif "Patchy Freezing Fog" in forecast:
+		vibe = "stirfry"
+	elif "Patchy Freezing Fog then Partly Sunny" in forecast:
+		vibe = "cabbage"
+	elif "Showers Likely" in forecast:
+		vibe = "fish"
+	elif "Slight Chance Snow Showers then Mostly Sunny" in forecast:
+		vibe = "pasta"
+	elif "Chance Rain And Snow Showers" in forecast:
+		vibe = "curry"
+	elif "Partly Cloudy then Chance Snow Showers" in forecast:
+		vibe = "casserole"
+	elif "Slight Chance Snow" in forecast:
+		vibe = "chowder"
+	elif "Slight Chance T-storms" in forecast:
+		vibe = "pretzel"
+	else:
 		vibe = "sandwich"
+	
 
 def get_recipe (vibe):
 	"""makes a query to spoonacular to get a recipe for the user"""
