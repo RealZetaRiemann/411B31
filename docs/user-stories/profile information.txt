@@ -1,0 +1,5 @@
+Profile Information:
+As a logged in user I want to be able to go to my profile page so that I can access my profile information. 
+As a user on my profile page, I want to be able to view and edit my email address associated with my account. 
+I will also want to be able to change my zip code if necessary. I also will have the ability to change my password. 
+If I decide I no longer want my Weather Spoons account, I can choose to delete my account.

@@ -1,0 +1,6 @@
+Finding Recipes:
+As a user once I am logged in I will be able to input my zip code if I have not done so before. Once I have done 
+that or if I have done that prior, I will be able to hit a button that finds recipes for me. This will send me 
+to a page that will output pictures of recipes as well as a link to the recipe information. This page will 
+also allow me to see what weather conditions are currently occurring in my zip code. I will also be able to go 
+back to previous pages or other pages from this page, so I can find another recipe.

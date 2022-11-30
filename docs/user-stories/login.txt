@@ -1,0 +1,5 @@
+Log-in:
+As a user, I want to be able to log into my profile for Weather Spoons. My login profile will store information, such as my 
+current zip code, email, and favorite recipes*. After I successfully login using my username and password, I will see the find 
+recipes page where I can then find recipes based on my local zip code. I can also choose to login with github using third party 
+authentication. 
