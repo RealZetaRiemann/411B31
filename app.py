@@ -15,10 +15,10 @@ app.secret_key = secrets.token_bytes(32)
 
 oauth = OAuth(app)
 
-Geoapify_Key = "PASTE_KEY"
-spoonacular_api_key = "PASTE_KEY"
-app.config['GITHUB_CLIENT_ID'] = "PASTE_KEY"
-app.config['GITHUB_CLIENT_SECRET'] = "PASTE_KEY"
+Geoapify_Key = "INSERT_KEY"
+spoonacular_api_key = "INSERT_KEY"
+app.config['GITHUB_CLIENT_ID'] = "INSERT_KEY"
+app.config['GITHUB_CLIENT_SECRET'] = "INSERT_KEY"
 
 github = oauth.register (
   name = 'github',
@@ -63,10 +63,7 @@ def vibecheck (forecast):
 		vibe = "noodles"
 	elif "Cloudy" in forecast:
 		vibe = "meatballs"
-	"""
-	elif "Rain" in forecast or
-	"Showers and Breezy" in forecast
-	or "Snow Showers" in forecast:
+	elif "Rain" in forecast or "Showers and Breezy" in forecast or "Snow Showers" in forecast:
 		vibe = "soup"
 	elif "Partly Sunny" in forecast:
 		vibe = "wrap"
@@ -84,8 +81,7 @@ def vibecheck (forecast):
 		vibe = "salad"
 	elif "Scattered Showers and Breezy" in forecast:
 		vibe = "coucous"
-	elif "Showers and Patchy Fog" in forecast or 
-	"Chance Showers and Patchy Fog then Showers and Patchy Fog" in forecast:
+	elif "Showers and Patchy Fog" in forecast or "Chance Showers and Patchy Fog then Showers and Patchy Fog" in forecast:
 		vibe = "stew"
 	elif "Areas Freezing Fog " in forecast:
 		vibe = "risotto"
@@ -107,7 +103,6 @@ def vibecheck (forecast):
 		vibe = "pretzel"
 	else:
 		vibe = "sandwich"
-	"""
 
 #get recipe from Spoonacular API
 def get_recipe (vibe):
@@ -145,7 +140,12 @@ def newuser():
 @app.route('/home/', methods = ['POST', 'GET'])
 def home():
 	if request.method == 'GET':
-		return render_template('home.html')
+		
+		lat,lon,city = get_coords_from_zip(zipcode)
+		forecast = get_gridpoint_forecast(lat,lon)
+		vibe = vibecheck(forecast)
+		title,image,recipe_id,sourceUrl = get_recipe(vibe)
+		return render_template('home.html',lat=lat,lon=lon,forecast=forecast,title=title,image=image,recipe_id=recipe_id,sourceUrl=sourceUrl,city=city,zipcode=zipcode)
 	if request.method == 'POST':
 
 		# If the zipcode is real then render the home page normally
@@ -162,10 +162,10 @@ def home():
 
 			# save zipcode during session for easy access
 			session["zipcode"] = zipcode
-			lat,lon,city = get_coords_from_zip(zipcode)
-			forecast = get_gridpoint_forecast(lat,lon)
-			vibe = vibecheck(forecast)
-			title,image,recipe_id,sourceUrl = get_recipe(vibe)
+		lat,lon,city = get_coords_from_zip(zipcode)
+		forecast = get_gridpoint_forecast(lat,lon)
+		vibe = vibecheck(forecast)
+		title,image,recipe_id,sourceUrl = get_recipe(vibe)
 		return render_template("home.html",lat=lat,lon=lon,forecast=forecast,title=title,image=image,recipe_id=recipe_id,sourceUrl=sourceUrl,city=city,zipcode=zipcode)
 
 	# Otherwise return to the newuser page to try again
@@ -196,44 +196,48 @@ def github_login():
 # Github authorization
 @app.route('/login/github/authorize')
 def github_authorize():
-    github = oauth.create_client('github')
-    token = github.authorize_access_token()
+	github = oauth.create_client('github')
+	token = github.authorize_access_token()
 
-    all_user_info = github.get('user').json()
-    username = all_user_info['login']
-    id = all_user_info['id']
-    realname = all_user_info['name']
+	all_user_info = github.get('user').json()
+	username = all_user_info['login']
+	id = all_user_info['id']
+	realname = all_user_info['name']
 
     # save user info during session (easier than using the database every time)
-    session["username"] = username
-    session["id"] = id
-    session["realname"] = realname
+	session["username"] = username
+	session["id"] = id
+	session["realname"] = realname
 
-    conn = sqlite3.connect("database.db")
-    cursor = conn.cursor()
+	conn = sqlite3.connect("database.db")
+	cursor = conn.cursor()
 
     # add user's github id and username into the database 
-    cursor.execute("INSERT OR IGNORE INTO USERS (id) VALUES (:id)", {'id': id})
-    cursor.execute("UPDATE USERS SET username = :username WHERE id = :id", {'username': username, 'id': id})
+	cursor.execute("INSERT OR IGNORE INTO USERS (id) VALUES (:id)", {'id': id})
+	cursor.execute("UPDATE USERS SET username = :username WHERE id = :id", {'username': username, 'id': id})
     # if they have their real name on their github account, add that to the database as well
-    if (realname != "None"):
-      cursor.execute("UPDATE USERS SET realname = :realname WHERE id = :id", {'realname': realname, 'id': id})
+	if (realname != "None"):
+		cursor.execute("UPDATE USERS SET realname = :realname WHERE id = :id", {'realname': realname, 'id': id})
 
     # check if the user's id has a zipcode attached
-    zipcode = cursor.execute("SELECT zipcode FROM USERS WHERE id = (:id)", {'id': id})
-    zipcode = cursor.fetchone()
-    zipcode = zipcode[0]
+	zipcode = cursor.execute("SELECT zipcode FROM USERS WHERE id = (:id)", {'id': id})
+	zipcode = cursor.fetchone()
+	zipcode = zipcode[0]
 
-    conn.commit()
-    conn.close()
+	conn.commit()
+	conn.close()
 
     # if this is a new account without a zipcode, then render a "newuser" html page which will ask them...
     # ...to input their zipcode before bringing them to the home page
-    if zipcode == None:
-      return render_template('newuser.html', username = username, id = id, realname = realname, zipcode = zipcode)
+	if zipcode == None:
+		return render_template('newuser.html', username = username, id = id, realname = realname, zipcode = zipcode)
 
     # otherwise just go to the home page and save the zipcode during session for easy access
-    session["zipcode"] = zipcode
-    return render_template('home.html', username = username, id = id, realname = realname, zipcode = zipcode)
+	session["zipcode"] = zipcode
+	lat,lon,city = get_coords_from_zip(zipcode)
+	forecast = get_gridpoint_forecast(lat,lon)
+	vibe = vibecheck(forecast)
+	title,image,recipe_id,sourceUrl = get_recipe(vibe)
+	return render_template('home.html', username = username, id = id, realname = realname, lat=lat,lon=lon,forecast=forecast,title=title,image=image,recipe_id=recipe_id,sourceUrl=sourceUrl,city=city,zipcode=zipcode)
 
 app.run(host='localhost', port=5000)
