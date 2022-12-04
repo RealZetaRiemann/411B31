@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Weather Spoons</title>
+  <link rel="stylesheet" href="cssdocs/recipeFound.css">
+  <link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet'>
+</head>
+
+<body>
+
+
+    <!-- NAV BAR INFO START -->
+    <ul>
+      <li><a href="profile.html">Profile</a></li>
+      <li><a href="favorite.html">Favorites</a></li>
+      <li><a class="active" href="recipeFound.html">New Recipes</a></li>
+      <li><a href="enterZipcode.html">Zipcode</a></li>
+      <li style="float:right"><a>Weather Spoons</a></li>
+  </ul>
+
+  <!-- NAV BAR INFO END -->
+
+
+
+
+  <div class="two-boxes">
+
+    <div class="recipe-box">
+      <h1> Recipe Found! </h1>
+    </div>
+
+    <div class="weather-box">
+      <p>    The weather in {{city}} {{zipcode}} is currently {{forecast}} <br>
+        based on the weather, we recommend this recipe: </p>
+    </div>
+
+  </div>
+
+
+
+  <div class="results-box">
+    <a href={{sourceUrl}} target="_blank">{{title}}</a> (ID:{{recipe_id}})
+    <br><img src="{{image}}" alt="recipe preview">
+  </div>
+
+
+
+
+
+
+
+
+</body>
+
+</html>

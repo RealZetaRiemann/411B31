@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Weather Spoons</title>
+    <link rel="stylesheet" href="cssdocs/profile.css">
+    <link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet'>
+</head>
+
+<body>
+
+    <!-- NAV BAR INFO START -->
+    <ul>
+        <li><a  class="active" href="profile.html">Profile</a></li>
+        <li><a href="favorite.html">Favorites</a></li>
+        <li><a href="recipeFound.html">New Recipes</a></li>
+        <li><a href="enterZipcode.html">Zipcode</a></li>
+        <li style="float:right"><a>Weather Spoons</a></li>
+    </ul>
+
+    <!-- NAV BAR INFO END -->
+
+
+
+    <div class="container">
+        <img class="image" src="images/profileImage.png">
+    </div>
+
+
+    <div class="profile-box">
+        <h1> <strong><u>Profile</u> </strong></h1>
+        <p>Username: {{username | safe}}</p>
+        <p>Real Name: {{realname | safe}}</p>
+        <p>Zipcode: {{zipcode | safe}}</p>
+    </div>
+
+
+</body>
+
+</html>

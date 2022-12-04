@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Weather Spoons</title>
+    <link rel="stylesheet" href="cssdocs/enterZipcode.css">
+    <link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet'>
+</head>
+
+<body>
+
+
+    <!-- NAV BAR INFO START -->
+    <ul>
+        <li><a href="profile.html">Profile</a></li>
+        <li><a href="favorite.html">Favorites</a></li>
+        <li><a href="recipeFound.html">New Recipes</a></li>
+        <li><a class="active" href="enterZipcode.html">Zipcode</a></li>
+        <li style="float:right"><a>Weather Spoons</a></li>
+    </ul>
+  
+    <!-- NAV BAR INFO END -->
+
+
+
+
+
+
+  <h1>Weather Spoons</h1>
+  <p>Welcome to Weather Spoons! Please enter your zipcode so we can recommend some tasty recipes :) 
+    And don't worry! We'll remember your zipcode for next time, so you only have to enter it once 
+    unless you need to change it.</p>
+
+    <div id="main">
+        {% if failure == True %}
+            <p>Please enter a valid zipcode to continue.</p>
+        {% endif %}
+        <div id="start">
+            <form action = "/home" method = "POST" id="enteruser">
+                <p style = "text-align: center;"><input type="text" name="zipcode" placeholder="Your Zipcode" required/></p>
+                <p style = "text-align: center;"><input type = "submit" value = "submit" /></p>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>
