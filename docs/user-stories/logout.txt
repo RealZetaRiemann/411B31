@@ -1,6 +1,5 @@
 Log-Out:
 As a logged in user I want to be able to log out of my profile so that I can keep my information secure. 
-As a logged in user, I want to be able to log out of my account and it will take me back to the Weather Spoons
-landing page. I click on the configure profile button and choose to logout. After I log out, I am taken 
-to the logout page that tells me I have successfully logged out. If I realized I wanted to find another recipe, 
+I click on the profile button and choose to logout. After I log out, I am taken 
+to the Weather Spoons landing page. If I realized I wanted to find another recipe, 
 I click on the login button again so I can go back to finding more recipes.
