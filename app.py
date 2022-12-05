@@ -15,10 +15,10 @@ app.secret_key = secrets.token_bytes(32)
 
 oauth = OAuth(app)
 
-Geoapify_Key = ""
-spoonacular_api_key = ""
-app.config['GITHUB_CLIENT_ID'] = ""
-app.config['GITHUB_CLIENT_SECRET'] = ""
+Geoapify_Key = "fc17f5af7b5d44579ac64c18f3700e2f"
+spoonacular_api_key = "d571d46852be436aa59ea0229e022595"
+app.config['GITHUB_CLIENT_ID'] = "8427d9c0a9294daa443a"
+app.config['GITHUB_CLIENT_SECRET'] = "f582a5bde4e3eedcf2128d91ff1dfb70433da4be"
 
 github = oauth.register (
   name = 'github',
@@ -179,7 +179,8 @@ def profile():
   username = session["username"]
   realname = session["realname"]
   zipcode = session["zipcode"]
-  return render_template('profile.html', username = username, realname = realname, zipcode = zipcode)
+  avatar = session["avatar"]
+  return render_template('profile.html', username = username, realname = realname, zipcode = zipcode, avatar = avatar)
 
 # Get zipcode from new users
 @app.route('/favorites')
@@ -203,11 +204,13 @@ def github_authorize():
 	username = all_user_info['login']
 	id = all_user_info['id']
 	realname = all_user_info['name']
+	avatar = all_user_info['avatar_url']
 
     # save user info during session (easier than using the database every time)
 	session["username"] = username
 	session["id"] = id
 	session["realname"] = realname
+	session["avatar"] = avatar
 
 	conn = sqlite3.connect("database.db")
 	cursor = conn.cursor()

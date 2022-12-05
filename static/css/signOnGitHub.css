@@ -7,28 +7,19 @@ body {
 
 .SignIn-button {
     font-family: 'Raleway';
-    background-color: rgb(204, 204, 204);
     color: black;
-    border: solid;
     height: 60px;
     width: 150px;
-    border-color:  rgb(48, 48, 48);
-    border-width: 3px;
-    border-radius: 5px;
     cursor: pointer;
     margin-right: 8px;
     vertical-align: top;
     font-size: large;
-
-
-    margin-top: 120px;
     margin-left: 600px;
     margin-bottom: 100px;
 }
 
 .SignIn-button:hover {
-    background-color:  rgb(48, 48, 48);
-    color:white
+    color:white;
 
 }
 
@@ -41,7 +32,6 @@ body {
     position: relative;
     width: 300px;
     height: auto;
-
     margin-top: 20px;
     margin-left: 20px;
 }
@@ -53,7 +43,6 @@ body {
     border-color: rgb(174, 154, 122);
     border-width: 25px;
     border-style: solid;
-    border-radius: 500px;
 }
 
 .bottom-right {
@@ -68,4 +57,8 @@ body {
 .logo {
     display: inline-block;
     margin-top: 130px;
+}
+
+a {
+    color: black;
 }

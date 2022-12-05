@@ -81,6 +81,8 @@ h1 {
     display: inline-block;
     vertical-align: top;
 
+    width: 750px;
+
 }
 
 
@@ -118,3 +120,31 @@ ul {
   .active {
       background-color: rgb(174, 154, 122);
   }
+
+  .Fav-button {
+    font-family: 'Raleway';
+    background-color: rgb(204, 204, 204);
+    color: black;
+    border: solid;
+    height: 60px;
+    width: 150px;
+    border-color:  rgb(48, 48, 48);
+    border-width: 3px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 8px;
+    font-size: large;
+    display: block;
+    margin-bottom: 100px;
+    margin-left: 200px;
+}
+
+.Fav-button:hover {
+    background-color:  rgb(48, 48, 48);
+    color:white
+
+}
+
+.Fav-button:active {
+    opacity: 0.5;
+}
