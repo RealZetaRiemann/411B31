@@ -15,10 +15,10 @@ app.secret_key = secrets.token_bytes(32)
 
 oauth = OAuth(app)
 
-Geoapify_Key = "fc17f5af7b5d44579ac64c18f3700e2f"
-spoonacular_api_key = "d571d46852be436aa59ea0229e022595"
-app.config['GITHUB_CLIENT_ID'] = "8427d9c0a9294daa443a"
-app.config['GITHUB_CLIENT_SECRET'] = "f582a5bde4e3eedcf2128d91ff1dfb70433da4be"
+Geoapify_Key = ""
+spoonacular_api_key = ""
+app.config['GITHUB_CLIENT_ID'] = ""
+app.config['GITHUB_CLIENT_SECRET'] = ""
 
 github = oauth.register (
   name = 'github',
