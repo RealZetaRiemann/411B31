@@ -15,10 +15,10 @@ app.secret_key = secrets.token_bytes(32)
 
 oauth = OAuth(app)
 
-Geoapify_Key = "INSERT_KEY"
-spoonacular_api_key = "INSERT_KEY"
-app.config['GITHUB_CLIENT_ID'] = "INSERT_KEY"
-app.config['GITHUB_CLIENT_SECRET'] = "INSERT_KEY"
+Geoapify_Key = "fc17f5af7b5d44579ac64c18f3700e2f"
+spoonacular_api_key = "d571d46852be436aa59ea0229e022595"
+app.config['GITHUB_CLIENT_ID'] = "8427d9c0a9294daa443a"
+app.config['GITHUB_CLIENT_SECRET'] = "f582a5bde4e3eedcf2128d91ff1dfb70433da4be"
 
 github = oauth.register (
   name = 'github',
@@ -140,7 +140,7 @@ def newuser():
 @app.route('/home/', methods = ['POST', 'GET'])
 def home():
 	if request.method == 'GET':
-		
+		zipcode = session["zipcode"]
 		lat,lon,city = get_coords_from_zip(zipcode)
 		forecast = get_gridpoint_forecast(lat,lon)
 		vibe = vibecheck(forecast)

@@ -6,20 +6,35 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="{{ url_for('static', filename='/css/index.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='/css/signOnGitHub.css') }}">
+  <link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet'>
   <title>Weather Spoons</title>
 </head>
 
 <body>
-  <h1>Weather Spoons</h1>
-  <div class="oauth-box">  
-    <div>
-      <a href="{{ url_for('github_login') }}">
-        <img src="{{ url_for('static', filename='/images/github-logo.png') }}" 
-        width="41px" height="42px" alt="Github logo">
-      </a>
+
+  <div class="container">
+      <img class="image" src="{{ url_for('static', filename='/images/mainImage.jpeg') }}">
+      <div class="bottom-right"> Weather Spoons </div>
+  </div>
+
+  
+  <div class="button-logo">
+    <div class="SignIn-button">  
+      <div>
+        <a href="{{ url_for('github_login') }}">
+          <img src="{{ url_for('static', filename='/images/github-logo.png') }}" 
+          width="41px" height="42px" alt="Github logo">
+        </a>
+      </div>
     </div>
   </div>
+
+
+
+
+
 </body>
+
 
 </html>

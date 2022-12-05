@@ -4,23 +4,38 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="{{ url_for('static', filename='/css/main.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='/css/recipeFound.css') }}">
+  <link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet'>
   <title>Weather Spoons</title>
 </head>
 
 <body>
-  <h1>Weather Spoons</h1>
 
-  <nav id="nav">
-    <ul>
-        <li class="nav"><span><a href="/home"> Home </a></span></li>
-        <li class="nav"><span><a href="/profile"> Profile </a></span></li>
-        <li class="nav"><span><a href="/favorites"> Favorites </a></span></li>
-    </ul>
-  </nav>
 
-  <h2>Favorites</h2>
-  <p>TBD</p>
+  <!-- NAV BAR INFO START -->
+  <ul>
+      <li><a href="/profile">Profile</a></li>
+      <li><a class="active" href="/favorites">Favorites</a></li>
+      <li><a href="/home">New Recipes</a></li>
+      <li><a href="/newuser">Zipcode</a></li>
+      <li style="float:right"><a>Weather Spoons</a></li>
+  </ul>
+
+  <!-- NAV BAR INFO END -->
+
+<div class="two-boxes">
+
+
+  <div class="recipe-box">
+      <h1> Favorite </h1>
+    </div>
+
+</div>
+
+<div class="results-box">
+
+</div>
+
 </body>
 
 </html>
