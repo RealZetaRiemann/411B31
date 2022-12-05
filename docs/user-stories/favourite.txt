@@ -1,0 +1,4 @@
+Favorite Recipe:
+As a user, I want to be able to track my favorite recipe. While logged into my account, I will be able to 
+go to a specific tab in the application and view previously saved favorite recipe. I will be able to see other recipes and the date and weather 
+condition in which it was suggested to me.
