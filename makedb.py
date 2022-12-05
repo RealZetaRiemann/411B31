@@ -13,7 +13,7 @@ cursor = conn.cursor()
 
 # table includes columns for a username, email, and password
 # all ids must be unique
-cursor.execute('CREATE TABLE USERS (id TEXT, username TEXT, realname TEXT, zipcode TEXT, UNIQUE(id))')
+cursor.execute('CREATE TABLE USERS (id TEXT, username TEXT, realname TEXT, zipcode TEXT, favorite TEXT, UNIQUE(id))')
 
 # close database
 conn.commit()
