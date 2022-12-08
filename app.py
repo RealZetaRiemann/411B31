@@ -129,6 +129,10 @@ def get_recipe (vibe):
 @app.route('/')
 def index():
   return render_template('index.html')
+#Sign off
+@app.route('/index')
+def signoff():
+  return render_template('index.html')
 
 # Get zipcode from new users
 @app.route('/newuser')
