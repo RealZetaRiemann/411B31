@@ -1,4 +1,4 @@
 Profile Information:
 As a logged in user I want to be able to go to my profile page so that I can access my profile information. 
-As a user on my profile page, I want to be able to view and edit the GitHub information associated with my account. 
+As a user on my profile page, I want to be able to view and edit the Google information associated with my account. 
 I will also want to be able to change my zip code if necessary. To do this I can enter a new zipcode on the Zipcode page, and re-enter my zipcode. 
