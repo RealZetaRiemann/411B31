@@ -37,7 +37,11 @@ Button.defaultProps = {
 };
 
 function clickMe() {
-  //make query on backend
+  const requestOptions = {
+    method: 'PUT'
+  };
+  fetch('/home/', requestOptions);
+
   alert("Added as Favorite!");
 }
 
