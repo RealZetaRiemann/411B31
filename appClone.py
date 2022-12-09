@@ -145,7 +145,7 @@ def home():
 		forecast = get_gridpoint_forecast(lat,lon)
 		vibe = vibecheck(forecast)
 		title,image,recipe_id,sourceUrl = get_recipe(vibe)
-    data = {"lat" : lat, "lon" : lon, "forecast" : forecast, "title": title, "image" : image, "recipe_id" : recipe_id, "sourceUrl" : sourceUrl, "city" : city, "zipcode" : zipcode}
+		data = {"lat" : lat, "lon" : lon, "forecast" : forecast, "title": title, "image" : image, "recipe_id" : recipe_id, "sourceUrl" : sourceUrl, "city" : city, "zipcode" : zipcode}
 		return jsonify(data)
   
 	if request.method == 'POST':
@@ -168,13 +168,13 @@ def home():
 		forecast = get_gridpoint_forecast(lat,lon)
 		vibe = vibecheck(forecast)
 		title,image,recipe_id,sourceUrl = get_recipe(vibe)
-    data = {"lat" : lat, "lon" : lon, "forecast" : forecast, "title": title, "image" : image, "recipe_id" : recipe_id, "sourceUrl" : sourceUrl, "city" : city, "zipcode" : zipcode}
+		data = {"lat" : lat, "lon" : lon, "forecast" : forecast, "title": title, "image" : image, "recipe_id" : recipe_id, "sourceUrl" : sourceUrl, "city" : city, "zipcode" : zipcode}
 		return jsonify(data)
 
 	# Otherwise return to the newuser page to try again
 	else:
 		failure = True
-    message = jsonify(message = 'invalid zipcode entered')
+		message = jsonify(message = 'invalid zipcode entered')
 		return make_response(message,400)
 
 # Get zipcode from new users
@@ -192,62 +192,54 @@ def profile():
 def favorites():
   return render_template('favorites.html')
 
-# Github login
-@app.route('/login/github')
-def github_login():
-    github = oauth.create_client('github')
-    redirect_url = url_for('github_authorize', _external=True)
-    return github.authorize_redirect(redirect_url)
+# OAuth
+@app.route('/login')
+def get_OAuth():
+	if request.method == 'POST':
+		#parse request from front-end
+		userObject = request.body
+		username = userObject['email']
+		id = userObject['userID']
+		realname = userObject['given_name']
+		avatar = userObject['picture']
 
-# Github authorization
-@app.route('/login/github/authorize')
-def github_authorize():
-	github = oauth.create_client('github')
-	token = github.authorize_access_token()
+		# save user info during session (easier than using the database every time)
+		session["username"] = username
+		session["id"] = id
+		session["realname"] = realname
+		session["avatar"] = avatar
 
-	all_user_info = github.get('user').json()
-	username = all_user_info['login']
-	id = all_user_info['id']
-	realname = all_user_info['name']
-	avatar = all_user_info['avatar_url']
+		conn = sqlite3.connect("database.db")
+		cursor = conn.cursor()
 
-    # save user info during session (easier than using the database every time)
-	session["username"] = username
-	session["id"] = id
-	session["realname"] = realname
-	session["avatar"] = avatar
+		# add user's github id and username into the database 
+		cursor.execute("INSERT OR IGNORE INTO USERS (id) VALUES (:id)", {'id': id})
+		cursor.execute("UPDATE USERS SET username = :username WHERE id = :id", {'username': username, 'id': id})
+		# if they have their real name on their github account, add that to the database as well
+		if (realname != "None"):
+			cursor.execute("UPDATE USERS SET realname = :realname WHERE id = :id", {'realname': realname, 'id': id})
 
-	conn = sqlite3.connect("database.db")
-	cursor = conn.cursor()
+		# check if the user's id has a zipcode attached
+		zipcode = cursor.execute("SELECT zipcode FROM USERS WHERE id = (:id)", {'id': id})
+		zipcode = cursor.fetchone()
+		zipcode = zipcode[0]
 
-    # add user's github id and username into the database 
-	cursor.execute("INSERT OR IGNORE INTO USERS (id) VALUES (:id)", {'id': id})
-	cursor.execute("UPDATE USERS SET username = :username WHERE id = :id", {'username': username, 'id': id})
-    # if they have their real name on their github account, add that to the database as well
-	if (realname != "None"):
-		cursor.execute("UPDATE USERS SET realname = :realname WHERE id = :id", {'realname': realname, 'id': id})
+		conn.commit()
+		conn.close()
 
-    # check if the user's id has a zipcode attached
-	zipcode = cursor.execute("SELECT zipcode FROM USERS WHERE id = (:id)", {'id': id})
-	zipcode = cursor.fetchone()
-	zipcode = zipcode[0]
+		# if this is a new account without a zipcode, then render a "newuser" html page which will ask them...
+		# ...to input their zipcode before bringing them to the home page
+		if zipcode == None:
+			data = {"username" : username, "id" : id, "realname" : realname, "zipcode" : zipcode}
+			return jsonify(data)
 
-	conn.commit()
-	conn.close()
-
-    # if this is a new account without a zipcode, then render a "newuser" html page which will ask them...
-    # ...to input their zipcode before bringing them to the home page
-	if zipcode == None:
-    data = {"username" : username, "id" : id, "realname" : realname, "zipcode" : zipcode}
+		# otherwise just go to the home page and save the zipcode during session for easy access
+		session["zipcode"] = zipcode
+		lat,lon,city = get_coords_from_zip(zipcode)
+		forecast = get_gridpoint_forecast(lat,lon)
+		vibe = vibecheck(forecast)
+		title,image,recipe_id,sourceUrl = get_recipe(vibe)
+		data = {"username" : username, "id" : id, "realname" : realname, "lat" : lat, "lon" : lon, "forecast" : forecast, "title": title, "image" : image, "recipe_id" : recipe_id, "sourceUrl" : sourceUrl, "city" : city, "zipcode" : zipcode}
 		return jsonify(data)
-
-    # otherwise just go to the home page and save the zipcode during session for easy access
-	session["zipcode"] = zipcode
-	lat,lon,city = get_coords_from_zip(zipcode)
-	forecast = get_gridpoint_forecast(lat,lon)
-	vibe = vibecheck(forecast)
-	title,image,recipe_id,sourceUrl = get_recipe(vibe)
-  data = {"username" : username, "id" : id, "realname" : realname, "lat" : lat, "lon" : lon, "forecast" : forecast, "title": title, "image" : image, "recipe_id" : recipe_id, "sourceUrl" : sourceUrl, "city" : city, "zipcode" : zipcode}
-	return jsonify(data)
 
 app.run(host='localhost', port=5000)
