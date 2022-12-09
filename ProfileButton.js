@@ -35,13 +35,30 @@ const Button = styled.button`
 Button.defaultProps = {
   theme: "blue"
 };
+function goToProfile(){
+useEffect(() => {
+  // Using fetch to fetch the api from 
+  // flask server it will be redirected to proxy
+  fetch("/profile").then((res) =>
+      res.json().then((data) => {
+          // Setting a data from api
+          setdata({
+              username: data.username,
+              realname: data.realname,
+              zipcode: data.zipcode,
+              avatar: data.avatar,
+          });
+      })
+  );
+}, []);
+}
 
 export default function App() {
   return (
     <>
      
       <a href="https://react.school" target="_blank">
-        <Button>Profile</Button>
+        <Button>onClick={() => goToProfile}Profile</Button>
       </a>
     </>
   );

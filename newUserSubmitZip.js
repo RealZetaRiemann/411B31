@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
 const theme = {
@@ -35,27 +35,31 @@ const Button = styled.button`
 Button.defaultProps = {
   theme: "blue"
 };
-
+function goToHome(){
 useEffect(() => {
   // Using fetch to fetch the api from 
   // flask server it will be redirected to proxy
-  fetch("/favorites").then((res) =>
+  fetch("/home/").then((res) =>
       res.json().then((data) => {
           // Setting a data from api
           setdata({
-              sourceUrl: data.sourceUrl,
+              forecast: data.forecast,
               image: data.image,
+              sourceUrl: data.sourceUrl,
+              city: data.city,
+              zipcode: data.zipcode
           });
       })
   );
 }, []);
+}
 
 export default function App() {
   return (
     <>
      
       <a href="https://react.school" target="_blank">
-        <Button>Favorite</Button>
+        <Button>onClick={() => goToHome}Submit</Button>
       </a>
     </>
   );

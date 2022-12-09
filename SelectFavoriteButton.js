@@ -37,6 +37,7 @@ Button.defaultProps = {
 };
 
 function clickMe() {
+  //make query on backend
   alert("Added as Favorite!");
 }
 
@@ -44,7 +45,7 @@ export default function App() {
   return (
     <>
     <div>
-        <Button onClick={clickMe}>Button</Button>
+        <Button onClick={clickMe}>Favorite</Button>
       </div>
     </>
   );

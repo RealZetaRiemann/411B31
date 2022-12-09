@@ -36,12 +36,31 @@ Button.defaultProps = {
   theme: "blue"
 };
 
+function goToNewRecipe(){
+useEffect(() => {
+  // Using fetch to fetch the api from 
+  // flask server it will be redirected to proxy
+  fetch("/home/").then((res) =>
+      res.json().then((data) => {
+          // Setting a data from api
+          setdata({
+              forecast: data.forecast,
+              image: data.image,
+              sourceUrl: data.sourceUrl,
+              city: data.city,
+              zipcode: data.zipcode
+          });
+      })
+  );
+}, []);
+}
+
 export default function App() {
   return (
     <>
      
       <a href="https://react.school" target="_blank">
-        <Button>New Recipe</Button>
+        <Button>onClick={() => goToNewRecipe}New Recipe</Button>
       </a>
     </>
   );
