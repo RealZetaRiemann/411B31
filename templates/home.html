@@ -34,7 +34,7 @@
   </div>
 
   <div class="weather-box">
-    <p>    The weather in {{city}} {{zipcode}} is currently {{forecast}} <br>
+    <p>The weather in {{city}} {{zipcode}} is currently {{forecast}} <br>
       based on the weather, we recommend this recipe: </p>
   </div>
 
@@ -42,9 +42,12 @@
 
 <div class="results-box">
   <a href={{sourceUrl}} target="_blank" style="font-size: 25px; color:black;">{{title}}</a>
-  <br><img src="{{image}}" alt="recipe preview">
-  <button href=""class="Fav-button"> &#9733; Favorite </button>
-  </div>
+  <br><img src="{{image}}" alt="">
+
+  <form action = "/favorites" method = "POST">
+    <button name="/addfavtn" class="Fav-button"> &#9733; Favorite </button>
+  </form>
+  
 </div>
 
 </body>

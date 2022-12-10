@@ -15,10 +15,10 @@ app.secret_key = secrets.token_bytes(32)
 
 oauth = OAuth(app)
 
-Geoapify_Key = ""
-spoonacular_api_key = ""
-app.config['GITHUB_CLIENT_ID'] = ""
-app.config['GITHUB_CLIENT_SECRET'] = ""
+Geoapify_Key = "fc17f5af7b5d44579ac64c18f3700e2f"
+spoonacular_api_key = "d571d46852be436aa59ea0229e022595"
+app.config['GITHUB_CLIENT_ID'] = "8427d9c0a9294daa443a"
+app.config['GITHUB_CLIENT_SECRET'] = "f582a5bde4e3eedcf2128d91ff1dfb70433da4be"
 
 github = oauth.register (
   name = 'github',
@@ -123,6 +123,9 @@ def get_recipe (vibe):
 		recipe_url = "https://api.spoonacular.com/recipes/"+str(id)+"/information"
 		response = json.loads(requests.request("GET", recipe_url).text)
 		sourceUrl = response["spoonacularSourceUrl"]
+	session["sourceUrl"] = sourceUrl
+	session["image"] = image
+	session["title"] = title
 	return title,image,id,sourceUrl
 
 # Sign-in
@@ -149,6 +152,9 @@ def home():
 		forecast = get_gridpoint_forecast(lat,lon)
 		vibe = vibecheck(forecast)
 		title,image,recipe_id,sourceUrl = get_recipe(vibe)
+		session["sourceUrl"] = sourceUrl
+		session["image"] = image
+		session["title"] = title
 		return render_template('home.html',lat=lat,lon=lon,forecast=forecast,title=title,image=image,recipe_id=recipe_id,sourceUrl=sourceUrl,city=city,zipcode=zipcode)
 	if request.method == 'POST':
 
@@ -170,6 +176,9 @@ def home():
 		forecast = get_gridpoint_forecast(lat,lon)
 		vibe = vibecheck(forecast)
 		title,image,recipe_id,sourceUrl = get_recipe(vibe)
+		session["sourceUrl"] = sourceUrl
+		session["image"] = image
+		session["title"] = title
 		return render_template("home.html",lat=lat,lon=lon,forecast=forecast,title=title,image=image,recipe_id=recipe_id,sourceUrl=sourceUrl,city=city,zipcode=zipcode)
 
 	# Otherwise return to the newuser page to try again
@@ -187,9 +196,48 @@ def profile():
   return render_template('profile.html', username = username, realname = realname, zipcode = zipcode, avatar = avatar)
 
 # Get zipcode from new users
-@app.route('/favorites')
+@app.route('/favorites', methods = ['POST', 'GET'])
 def favorites():
-  return render_template('favorites.html')
+	id = session["id"]
+	sourceUrl = session["sourceUrl"]
+	image = session["image"]
+	title = session["title"]
+
+	if request.method == 'POST':
+		conn = sqlite3.connect("database.db")
+		cursor = conn.cursor()
+
+		cursor.execute("UPDATE USERS SET favurl = :sourceUrl WHERE id = :id", {'sourceUrl': sourceUrl, 'id': id})
+		cursor.execute("UPDATE USERS SET favimg = :image WHERE id = :id", {'image': image, 'id': id})
+		cursor.execute("UPDATE USERS SET favtitle = :title WHERE id = :id", {'title': title, 'id': id})
+
+		conn.commit()
+		conn.close()
+	
+	conn = sqlite3.connect("database.db")
+	cursor = conn.cursor()
+
+	favimg = cursor.execute("SELECT favimg FROM USERS WHERE id = (:id)", {'id': id})
+	favimg = cursor.fetchone()
+	favimg = favimg[0]
+
+	favurl = cursor.execute("SELECT favurl FROM USERS WHERE id = (:id)", {'id': id})
+	favurl = cursor.fetchone()
+	favurl = favurl[0]
+
+	favtitle = cursor.execute("SELECT favtitle FROM USERS WHERE id = (:id)", {'id': id})
+	favtitle = cursor.fetchone()
+	favtitle = favtitle[0]
+
+	conn.commit()
+	conn.close()
+
+	if favimg == None:
+		b = False
+	else:
+		b = True
+
+	return render_template('favorites.html', bool = b, favurl = favurl, favimg = favimg, favtitle = favtitle)
 
 # Github login
 @app.route('/login/github')

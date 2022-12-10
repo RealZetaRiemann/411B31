@@ -27,15 +27,24 @@
 
 
   <div class="recipe-box">
-      <h1> Favorite </h1>
+      <h1> Favorites </h1>
     </div>
 
 </div>
 
+{% if bool == False %}
 <div class="results-box">
-  <a href="" target="_blank" style="font-size: 25px; color:black;"> {{title}} </a>
-  <br><img src="{{image}}" alt="recipe preview">
+  <p style="font-size: 25px; color:black;">No favorites yet!</a>
+  <br><img src="{{ url_for('static', filename='/images/mainImage.jpeg') }}" width="556px" alt="">
 </div>
+{% endif %}
+
+{% if bool == True %}
+<div class="results-box">
+  <a href={{favurl}} target="_blank" style="font-size: 25px; color:black;">{{favtitle}}</a>
+  <br><img src="{{favimg}}" alt="">
+</div>
+{% endif %}
 
 </body>
 
