@@ -1,4 +1,4 @@
 Log-in:
 As a user, I want to be able to log into my profile for Weather Spoons. My login profile will store information, such as my 
-current zip code, Gmail address, and name on Google. After I successfully login using my Google account, I will see the find 
+current zip code, GitHub username, and my real name on GitHub. After I successfully login using my GitHub account, I will see the find 
 recipes page where I can then find recipes based on my local zip code. 
